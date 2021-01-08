@@ -26,6 +26,10 @@ const auth = {
         }
 
         const user = await userHelper.findById(isValid);
+        if(!user){
+            console.log('valid token and user has no access');
+            return res.sendStatus(403)
+        }
 
 
         req.user = user;
