@@ -1,4 +1,4 @@
-const { ObjectId } = require('mongodb');
+const { ObjectId, ObjectID } = require('mongodb');
 var db = require('../config/db-connection');
 var collection = require('../config/db-collections')
 const bcrypt = require('bcrypt');
@@ -35,6 +35,18 @@ const user ={
     comparePassword:(currentPassword,originalPassword)=>{
         return new Promise((resolve,reject)=>{
             resolve(bcrypt.compareSync(currentPassword,originalPassword))
+        })
+    },
+    findById: (id)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collection.COL_USESRS).findOne({ _id : ObjectID(id)}, (err,user)=>{
+                if(user != null){
+                    resolve(user)
+                }
+                else{
+                    resolve(null)
+                }
+            })
         })
     }
 }
